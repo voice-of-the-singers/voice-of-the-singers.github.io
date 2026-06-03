@@ -9,384 +9,174 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0e0c0a;
-      --surface: #1a1714;
-      --surface2: #231f1b;
-      --border: rgba(255,255,255,0.08);
-      --border-hover: rgba(255,255,255,0.16);
-      --gold: #c9a84c;
-      --gold-light: #e8c97a;
-      --gold-dim: rgba(201,168,76,0.15);
-      --text: #f0ebe3;
-      --text-muted: #8a8278;
-      --text-dim: #4a4540;
-      --green: #4caf7d;
-      --green-dim: rgba(76,175,125,0.15);
-      --red: #e05c5c;
-      --red-dim: rgba(224,92,92,0.12);
-      --amber: #d4862a;
-      --amber-dim: rgba(212,134,42,0.15);
-      --purple: #9b7fd4;
-      --purple-dim: rgba(155,127,212,0.15);
-      --radius: 10px;
-      --radius-lg: 16px;
+      --bg: #0e0c0a; --surface: #1a1714; --surface2: #231f1b;
+      --border: rgba(255,255,255,0.08); --border-hover: rgba(255,255,255,0.16);
+      --gold: #c9a84c; --gold-light: #e8c97a; --gold-dim: rgba(201,168,76,0.15);
+      --text: #f0ebe3; --text-muted: #8a8278; --text-dim: #4a4540;
+      --green: #4caf7d; --green-dim: rgba(76,175,125,0.15);
+      --red: #e05c5c; --red-dim: rgba(224,92,92,0.12);
+      --amber: #d4862a; --amber-dim: rgba(212,134,42,0.15);
+      --purple: #9b7fd4; --purple-dim: rgba(155,127,212,0.15);
+      --radius: 10px; --radius-lg: 16px;
     }
-
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; line-height: 1.6; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-
-    /* ── TOPBAR ── */
-    #topbar {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(14,12,10,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 0.5px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 24px; height: 56px;
-    }
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px; font-weight: 600;
-      color: var(--text); letter-spacing: -0.2px;
-    }
+    /* TOPBAR */
+    #topbar { position: sticky; top: 0; z-index: 100; background: rgba(14,12,10,0.92); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 56px; gap: 12px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.2px; white-space: nowrap; }
     .logo em { color: var(--gold); font-style: italic; }
-    #search-input {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: 20px;
-      padding: 7px 16px 7px 36px;
-      font-size: 13px; font-family: 'DM Sans', sans-serif;
-      color: var(--text); width: 240px;
-      outline: none; transition: border-color 0.2s;
-    }
+    #search-input { background: var(--surface); border: 0.5px solid var(--border); border-radius: 20px; padding: 7px 16px 7px 36px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); width: 220px; outline: none; transition: border-color 0.2s; }
     #search-input:focus { border-color: var(--border-hover); }
     #search-input::placeholder { color: var(--text-muted); }
     .search-wrap { position: relative; }
     .search-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); opacity: 0.4; }
-    #auth-btn {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--surface2); border: 0.5px solid var(--border);
-      border-radius: var(--radius); padding: 7px 14px;
-      font-size: 13px; font-family: 'DM Sans', sans-serif;
-      color: var(--text); cursor: pointer; transition: border-color 0.2s, background 0.2s;
-    }
+    #auth-btn { display: flex; align-items: center; gap: 8px; background: var(--surface2); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 7px 14px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); cursor: pointer; transition: border-color 0.2s, background 0.2s; white-space: nowrap; }
     #auth-btn:hover { border-color: var(--border-hover); background: #2a2520; }
-    #user-avatar {
-      width: 28px; height: 28px; border-radius: 50%;
-      object-fit: cover; display: none;
-    }
+    #user-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; display: none; }
 
-    /* ── HERO ── */
-    #hero {
-      text-align: center; padding: 80px 24px 60px;
-      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%);
-      border-bottom: 0.5px solid var(--border);
-    }
-    #hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 600; line-height: 1.15;
-      color: var(--text); margin-bottom: 12px;
-    }
+    /* HERO */
+    #hero { text-align: center; padding: 80px 24px 60px; background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%); border-bottom: 0.5px solid var(--border); }
+    #hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 600; line-height: 1.15; color: var(--text); margin-bottom: 12px; }
     #hero h1 em { color: var(--gold); font-style: italic; }
     #hero p { color: var(--text-muted); font-size: 15px; max-width: 480px; margin: 0 auto 32px; }
-    #hero-search {
-      display: flex; gap: 0; max-width: 520px; margin: 0 auto;
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: 28px; overflow: hidden;
-      transition: border-color 0.2s;
-    }
+    #hero-search { display: flex; max-width: 520px; margin: 0 auto; background: var(--surface); border: 0.5px solid var(--border); border-radius: 28px; overflow: hidden; transition: border-color 0.2s; }
     #hero-search:focus-within { border-color: var(--gold); }
-    #hero-search input {
-      flex: 1; background: none; border: none;
-      padding: 13px 20px; font-size: 14px;
-      font-family: 'DM Sans', sans-serif;
-      color: var(--text); outline: none;
-    }
+    #hero-search input { flex: 1; background: none; border: none; padding: 13px 20px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text); outline: none; }
     #hero-search input::placeholder { color: var(--text-muted); }
-    #hero-search button {
-      background: var(--gold); color: #1a1200;
-      border: none; padding: 0 22px;
-      font-size: 13px; font-weight: 500;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer; transition: background 0.2s;
-    }
+    #hero-search button { background: var(--gold); color: #1a1200; border: none; padding: 0 22px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; }
     #hero-search button:hover { background: var(--gold-light); }
 
-    /* ── LAYOUT ── */
+    /* LAYOUT */
     #main { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
 
-    /* ── SONG PAGE ── */
+    /* SONG PAGE */
     #song-view { display: none; }
-    #song-header {
-      display: flex; gap: 20px; align-items: flex-start;
-      margin-bottom: 24px; padding-bottom: 24px;
-      border-bottom: 0.5px solid var(--border);
-    }
-    #song-art {
-      width: 88px; height: 88px; border-radius: var(--radius);
-      background: var(--surface2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 36px; flex-shrink: 0;
-      border: 0.5px solid var(--border);
-    }
-    #song-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px; font-weight: 600; margin-bottom: 4px;
-    }
+    #song-header { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 0.5px solid var(--border); }
+    #song-art { width: 88px; height: 88px; border-radius: var(--radius); background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0; border: 0.5px solid var(--border); }
+    #song-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; margin-bottom: 4px; }
     #song-artist { color: var(--gold); font-size: 14px; font-weight: 500; margin-bottom: 10px; }
+    .song-links { display: flex; gap: 8px; margin-bottom: 10px; }
+    .song-link { font-size: 11px; color: var(--text-muted); border: 0.5px solid var(--border); border-radius: 4px; padding: 2px 8px; text-decoration: none; transition: color 0.15s, border-color 0.15s; }
+    .song-link:hover { color: var(--gold); border-color: var(--gold); }
     .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
-    .tag {
-      font-size: 11px; font-weight: 500; padding: 3px 9px;
-      border-radius: 20px; letter-spacing: 0.3px;
-    }
+    .tag { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.3px; }
     .tag-key { background: var(--purple-dim); color: var(--purple); border: 0.5px solid rgba(155,127,212,0.25); }
     .tag-range { background: var(--green-dim); color: var(--green); border: 0.5px solid rgba(76,175,125,0.25); }
+    .tag-voice { background: var(--gold-dim); color: var(--gold); border: 0.5px solid rgba(201,168,76,0.25); }
     .tag-diff-adv { background: var(--red-dim); color: var(--red); border: 0.5px solid rgba(224,92,92,0.2); }
     .tag-diff-int { background: var(--amber-dim); color: var(--amber); border: 0.5px solid rgba(212,134,42,0.2); }
     .tag-diff-beg { background: var(--green-dim); color: var(--green); border: 0.5px solid rgba(76,175,125,0.25); }
-
     #song-layout { display: grid; grid-template-columns: 1fr 220px; gap: 24px; align-items: start; }
 
-    /* ── LYRICS ── */
-    .section-label {
-      font-size: 10px; font-weight: 500; letter-spacing: 1.5px;
-      text-transform: uppercase; color: var(--text-dim);
-      margin: 20px 0 6px;
-    }
-    .lyric-line {
-      display: flex; align-items: center; gap: 10px;
-      padding: 5px 8px; border-radius: 6px;
-      font-size: 15px; line-height: 1.9; cursor: pointer;
-      transition: background 0.15s; position: relative;
-    }
+    /* LYRICS */
+    .section-label { font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); margin: 20px 0 6px; }
+    .lyric-line { display: flex; align-items: center; gap: 10px; padding: 5px 8px; border-radius: 6px; font-size: 15px; line-height: 1.9; cursor: pointer; transition: background 0.15s; }
     .lyric-line:hover { background: var(--surface2); }
     .lyric-line.has-tip { background: rgba(201,168,76,0.05); }
     .lyric-text { flex: 1; }
-    .inline-mark {
-      display: inline-block; font-size: 10px; font-weight: 500;
-      padding: 1px 6px; border-radius: 4px; margin: 0 3px;
-      vertical-align: middle; letter-spacing: 0.3px;
-    }
+    .inline-mark { display: inline-block; font-size: 10px; font-weight: 500; padding: 1px 6px; border-radius: 4px; margin: 0 3px; vertical-align: middle; letter-spacing: 0.3px; }
     .mark-breath { background: var(--green-dim); color: var(--green); }
     .mark-warn { background: var(--red-dim); color: var(--red); }
-    .add-line-btn {
-      opacity: 0; font-size: 11px; color: var(--text-muted);
-      background: none; border: 0.5px solid var(--border);
-      border-radius: 4px; padding: 2px 8px; cursor: pointer;
-      transition: opacity 0.15s, border-color 0.15s;
-      font-family: 'DM Sans', sans-serif;
-    }
+    .add-line-btn { opacity: 0; font-size: 11px; color: var(--text-muted); background: none; border: 0.5px solid var(--border); border-radius: 4px; padding: 2px 8px; cursor: pointer; transition: opacity 0.15s, border-color 0.15s; font-family: 'DM Sans', sans-serif; }
     .lyric-line:hover .add-line-btn { opacity: 1; }
     .add-line-btn:hover { border-color: var(--gold); color: var(--gold); }
-
-    .tip-card {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-left: 2px solid var(--gold);
-      border-radius: var(--radius);
-      padding: 10px 14px; margin: 2px 0 10px 16px;
-      font-size: 13px; line-height: 1.65; color: var(--text-muted);
-      animation: fadeIn 0.2s ease;
-    }
-    .tip-card strong { color: var(--text); font-weight: 400; }
-    .tip-meta {
-      display: flex; align-items: center; gap: 8px;
-      margin-top: 8px; font-size: 11px; color: var(--text-dim);
-    }
-    .tip-type-badge {
-      font-size: 10px; font-weight: 500; padding: 2px 6px;
-      border-radius: 3px; letter-spacing: 0.3px; text-transform: uppercase;
-    }
+    .tip-card { background: var(--surface); border: 0.5px solid var(--border); border-left: 2px solid var(--gold); border-radius: var(--radius); padding: 10px 14px; margin: 2px 0 10px 16px; font-size: 13px; line-height: 1.65; color: var(--text-muted); animation: fadeIn 0.2s ease; }
+    .tip-meta { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 11px; color: var(--text-dim); flex-wrap: wrap; }
+    .tip-type-badge { font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.3px; text-transform: uppercase; }
     .badge-breath { background: var(--green-dim); color: var(--green); }
     .badge-technique { background: var(--purple-dim); color: var(--purple); }
     .badge-warning { background: var(--red-dim); color: var(--red); }
     .badge-dynamics { background: var(--amber-dim); color: var(--amber); }
-    .upvote-btn {
-      margin-left: auto; background: none; border: none;
-      color: var(--text-dim); cursor: pointer; font-size: 11px;
-      font-family: 'DM Sans', sans-serif;
-      display: flex; align-items: center; gap: 4px;
-      transition: color 0.15s;
-    }
+    .upvote-btn { margin-left: auto; background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 11px; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 4px; transition: color 0.15s; padding: 0; }
     .upvote-btn:hover { color: var(--gold); }
-    .upvote-btn.voted { color: var(--gold); }
+    .upvote-btn.voted { color: var(--gold); pointer-events: none; }
+    .report-btn { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 0; transition: color 0.15s; }
+    .report-btn:hover { color: var(--red); }
 
-    /* ── ADD TIP FORM ── */
-    #add-tip-section {
-      margin-top: 28px; padding-top: 20px;
-      border-top: 0.5px solid var(--border);
-    }
-    #add-tip-section h3 {
-      font-size: 13px; font-weight: 500; color: var(--text-muted);
-      margin-bottom: 12px;
-    }
+    /* ADD TIP FORM */
+    #add-tip-section { margin-top: 28px; padding-top: 20px; border-top: 0.5px solid var(--border); }
+    #add-tip-section h3 { font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 12px; }
     .tip-form { display: flex; flex-direction: column; gap: 10px; }
-    .tip-form select, .tip-form input, .tip-form textarea {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius);
-      padding: 10px 14px; font-size: 13px;
-      font-family: 'DM Sans', sans-serif;
-      color: var(--text); outline: none;
-      transition: border-color 0.2s;
-    }
-    .tip-form select:focus, .tip-form input:focus, .tip-form textarea:focus {
-      border-color: var(--gold);
-    }
+    .tip-form select, .tip-form input, .tip-form textarea { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 10px 14px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); outline: none; transition: border-color 0.2s; }
+    .tip-form select:focus, .tip-form input:focus, .tip-form textarea:focus { border-color: var(--gold); }
     .tip-form select option { background: var(--surface); }
     .tip-form textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
     .tip-form input::placeholder, .tip-form textarea::placeholder { color: var(--text-dim); }
-    #submit-tip-btn {
-      background: var(--gold); color: #1a1200;
-      border: none; border-radius: var(--radius);
-      padding: 11px 20px; font-size: 13px; font-weight: 500;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer; transition: background 0.2s; align-self: flex-start;
-    }
+    #submit-tip-btn { background: var(--gold); color: #1a1200; border: none; border-radius: var(--radius); padding: 11px 20px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; align-self: flex-start; }
     #submit-tip-btn:hover { background: var(--gold-light); }
     #submit-tip-btn:disabled { opacity: 0.4; cursor: default; }
-    #tip-login-note {
-      font-size: 12px; color: var(--text-muted);
-      padding: 10px 14px; background: var(--surface);
-      border: 0.5px solid var(--border); border-radius: var(--radius);
-    }
-    #tip-login-note a { color: var(--gold); cursor: pointer; text-decoration: none; }
+    .login-note { font-size: 12px; color: var(--text-muted); padding: 10px 14px; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); }
+    .login-note a { color: var(--gold); cursor: pointer; text-decoration: none; }
 
-    /* ── SIDEBAR ── */
-    .sidebar-card {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 16px; margin-bottom: 14px;
-    }
-    .sidebar-card h3 {
-      font-size: 10px; font-weight: 500; letter-spacing: 1.5px;
-      text-transform: uppercase; color: var(--text-dim);
-      margin-bottom: 12px;
-    }
-    .stat-row {
-      display: flex; justify-content: space-between;
-      font-size: 13px; padding: 5px 0;
-      border-bottom: 0.5px solid var(--border);
-    }
+    /* SIDEBAR */
+    .sidebar-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 14px; }
+    .sidebar-card h3 { font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; }
+    .stat-row { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; border-bottom: 0.5px solid var(--border); }
     .stat-row:last-child { border-bottom: none; }
     .stat-label { color: var(--text-muted); }
     .stat-val { font-weight: 500; color: var(--text); }
 
-    /* ── HOME BROWSE ── */
-    #home-view {}
-    .browse-label {
-      font-size: 10px; font-weight: 500; letter-spacing: 1.5px;
-      text-transform: uppercase; color: var(--text-dim);
-      margin-bottom: 16px;
-    }
-    #songs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px; margin-bottom: 32px;
-    }
-    .song-card {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 16px; cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      display: flex; flex-direction: column; gap: 6px;
-    }
+    /* PROFILE BADGE */
+    .voice-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 3px; background: var(--gold-dim); color: var(--gold); letter-spacing: 0.3px; }
+
+    /* HOME BROWSE */
+    .browse-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .browse-label { font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); }
+    #songs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 32px; }
+    .song-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 16px; cursor: pointer; transition: border-color 0.2s, background 0.2s; display: flex; flex-direction: column; gap: 6px; }
     .song-card:hover { border-color: var(--border-hover); background: var(--surface2); }
-    .song-card-art {
-      font-size: 28px; margin-bottom: 6px;
-      width: 48px; height: 48px;
-      background: var(--surface2); border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .song-card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 15px; font-weight: 600; line-height: 1.3;
-    }
+    .song-card-art { font-size: 28px; margin-bottom: 6px; width: 48px; height: 48px; background: var(--surface2); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .song-card-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; line-height: 1.3; }
     .song-card-artist { font-size: 12px; color: var(--gold); }
     .song-card-meta { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
 
-    /* ── ADD SONG ── */
-    #add-song-section {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 20px; margin-top: 28px;
-    }
-    #add-song-section h3 {
-      font-size: 14px; font-weight: 500; margin-bottom: 14px;
-      color: var(--text-muted);
-    }
+    /* ADD SONG */
+    #add-song-section { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-top: 28px; }
+    #add-song-section h3 { font-size: 14px; font-weight: 500; margin-bottom: 14px; color: var(--text-muted); }
     .song-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .song-form input, .song-form select, .song-form textarea {
-      background: var(--bg);
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius);
-      padding: 10px 14px; font-size: 13px;
-      font-family: 'DM Sans', sans-serif;
-      color: var(--text); outline: none;
-      transition: border-color 0.2s;
-    }
-    .song-form input:focus, .song-form select:focus, .song-form textarea:focus {
-      border-color: var(--gold);
-    }
+    .song-form input, .song-form select, .song-form textarea { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 10px 14px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); outline: none; transition: border-color 0.2s; }
+    .song-form input:focus, .song-form select:focus, .song-form textarea:focus { border-color: var(--gold); }
     .song-form input::placeholder { color: var(--text-dim); }
     .song-form select option { background: var(--bg); }
     .song-form .full-width { grid-column: 1 / -1; }
     .song-form textarea { resize: vertical; min-height: 120px; line-height: 1.7; }
-    #submit-song-btn {
-      background: var(--gold); color: #1a1200;
-      border: none; border-radius: var(--radius);
-      padding: 11px 22px; font-size: 13px; font-weight: 500;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer; transition: background 0.2s;
-      grid-column: 1 / -1;
-    }
+    #submit-song-btn { background: var(--gold); color: #1a1200; border: none; border-radius: var(--radius); padding: 11px 22px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; grid-column: 1 / -1; }
     #submit-song-btn:hover { background: var(--gold-light); }
+    #submit-song-btn:disabled { opacity: 0.4; cursor: default; }
 
-    /* ── TOAST ── */
-    #toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
-      background: var(--surface2); border: 0.5px solid var(--border);
-      border-radius: 20px; padding: 10px 20px;
-      font-size: 13px; color: var(--text);
-      transition: transform 0.3s ease; z-index: 999;
-      pointer-events: none;
-    }
+    /* PROFILE MODAL */
+    #profile-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
+    #profile-modal.open { display: flex; }
+    .modal-box { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 24px; width: 360px; max-width: 90vw; animation: fadeIn 0.2s ease; }
+    .modal-box h2 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+    .modal-box label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+    .modal-box select, .modal-box input { width: 100%; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 9px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); outline: none; margin-bottom: 12px; transition: border-color 0.2s; }
+    .modal-box select:focus, .modal-box input:focus { border-color: var(--gold); }
+    .modal-box select option { background: var(--bg); }
+    .modal-btns { display: flex; gap: 8px; margin-top: 4px; }
+    .btn-gold { background: var(--gold); color: #1a1200; border: none; border-radius: var(--radius); padding: 10px 18px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; }
+    .btn-gold:hover { background: var(--gold-light); }
+    .btn-ghost { background: none; color: var(--text-muted); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 10px 18px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: border-color 0.2s; }
+    .btn-ghost:hover { border-color: var(--border-hover); }
+
+    /* TOAST */
+    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface2); border: 0.5px solid var(--border); border-radius: 20px; padding: 10px 20px; font-size: 13px; color: var(--text); transition: transform 0.3s ease; z-index: 999; pointer-events: none; }
     #toast.show { transform: translateX(-50%) translateY(0); }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* ── LOADING ── */
     .loading-dots { color: var(--text-muted); font-size: 13px; padding: 20px 0; }
+    .error-msg { color: var(--red); font-size: 13px; padding: 20px 0; }
 
-    /* ── BACK BTN ── */
-    #back-btn {
-      display: none; align-items: center; gap: 6px;
-      background: none; border: none; color: var(--text-muted);
-      font-size: 13px; font-family: 'DM Sans', sans-serif;
-      cursor: pointer; padding: 0; margin-bottom: 20px;
-      transition: color 0.2s;
-    }
+    /* BACK BTN */
+    #back-btn { display: none; align-items: center; gap: 6px; background: none; border: none; color: var(--text-muted); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; padding: 0; margin-bottom: 20px; transition: color 0.2s; }
     #back-btn:hover { color: var(--gold); }
 
     @media (max-width: 640px) {
       #song-layout { grid-template-columns: 1fr; }
       .song-form { grid-template-columns: 1fr; }
-      #search-input { width: 160px; }
+      #search-input { width: 140px; }
     }
   </style>
 </head>
@@ -406,7 +196,7 @@
 
 <div id="hero">
   <h1>The singer's<br/><em>annotation layer</em></h1>
-  <p>Breath marks, technique tips, range warnings , crowdsourced by singers, for singers.</p>
+  <p>Breath marks, technique tips, range warnings — crowdsourced by singers, for singers.</p>
   <div id="hero-search">
     <input type="text" placeholder="Search a song or artist…" oninput="filterSongs(this.value)" onfocus="scrollToSongs()" />
     <button onclick="scrollToSongs()">Browse</button>
@@ -421,15 +211,17 @@
 
   <!-- HOME VIEW -->
   <div id="home-view">
-    <div class="browse-label" id="browse-label">All songs</div>
+    <div class="browse-header">
+      <div class="browse-label" id="browse-label">All songs</div>
+    </div>
     <div id="songs-grid"><div class="loading-dots">Loading songs…</div></div>
 
     <div id="add-song-section">
       <h3>Add a song to the library</h3>
-      <div id="add-song-login-note" style="font-size:12px;color:var(--text-muted);display:none;">
-        <a onclick="handleAuth()" style="color:var(--gold);cursor:pointer;">Sign in</a> to add a song.
+      <div id="add-song-login-note" class="login-note" style="display:none;">
+        <a onclick="handleAuth()">Sign in</a> to add a song.
       </div>
-      <div class="song-form" id="song-form">
+      <div class="song-form" id="song-form" style="display:none;">
         <input id="new-song-title" type="text" placeholder="Song title" />
         <input id="new-song-artist" type="text" placeholder="Artist / Band" />
         <input id="new-song-key" type="text" placeholder="Key (e.g. D minor)" />
@@ -441,7 +233,9 @@
           <option value="Advanced">Advanced</option>
         </select>
         <input id="new-song-emoji" type="text" placeholder="Emoji for art (e.g. 🎸)" maxlength="4" />
-        <textarea id="new-song-lyrics" class="full-width" placeholder="Paste lyrics here , one line per line. Mark sections like [Verse 1], [Chorus] etc."></textarea>
+        <input id="new-song-youtube" type="text" placeholder="YouTube URL (optional)" class="full-width" />
+        <input id="new-song-spotify" type="text" placeholder="Spotify URL (optional)" class="full-width" />
+        <textarea id="new-song-lyrics" class="full-width" placeholder="Paste lyrics here — one line per line. Mark sections like [Verse 1], [Chorus] etc."></textarea>
         <button id="submit-song-btn" onclick="submitSong()">Add song</button>
       </div>
     </div>
@@ -451,9 +245,10 @@
   <div id="song-view">
     <div id="song-header">
       <div id="song-art">🎤</div>
-      <div>
+      <div style="flex:1;">
         <div id="song-title">Song title</div>
         <div id="song-artist">Artist</div>
+        <div class="song-links" id="song-links"></div>
         <div class="tag-row" id="song-tags"></div>
       </div>
     </div>
@@ -462,16 +257,16 @@
         <div id="lyrics-area"></div>
         <div id="add-tip-section">
           <h3>Add a tip</h3>
-          <div id="tip-login-note" style="display:none;">
+          <div id="tip-login-note" class="login-note" style="display:none;">
             <a onclick="handleAuth()">Sign in</a> to contribute tips.
           </div>
-          <div class="tip-form" id="tip-form">
-            <input id="tip-line" type="text" placeholder="Lyric line this tip is for (copy paste it)" />
+          <div class="tip-form" id="tip-form" style="display:none;">
+            <input id="tip-line" type="text" placeholder="Lyric line this tip is for (or click + tip on a line above)" />
             <select id="tip-type">
-              <option value="breath">Breath , where to breathe</option>
-              <option value="technique">Technique , how to sing it</option>
-              <option value="warning">Warning , tricky passage</option>
-              <option value="dynamics">Dynamics , volume/emotion</option>
+              <option value="breath">Breath — where to breathe</option>
+              <option value="technique">Technique — how to sing it</option>
+              <option value="warning">Warning — tricky passage</option>
+              <option value="dynamics">Dynamics — volume / emotion</option>
             </select>
             <textarea id="tip-text" placeholder="Your tip…"></textarea>
             <button id="submit-tip-btn" onclick="submitTip()">Post tip</button>
@@ -486,14 +281,37 @@
   </div>
 </div>
 
+<!-- PROFILE MODAL -->
+<div id="profile-modal">
+  <div class="modal-box">
+    <h2>Your singer profile</h2>
+    <label>Voice type</label>
+    <select id="profile-voice">
+      <option value="">Select…</option>
+      <option value="Soprano">Soprano</option>
+      <option value="Mezzo-soprano">Mezzo-soprano</option>
+      <option value="Alto">Alto</option>
+      <option value="Tenor">Tenor</option>
+      <option value="Baritone">Baritone</option>
+      <option value="Bass">Bass</option>
+    </select>
+    <label>Display name (optional)</label>
+    <input id="profile-name" type="text" placeholder="How you'll appear on tips" />
+    <div class="modal-btns">
+      <button class="btn-gold" onclick="saveProfile()">Save</button>
+      <button class="btn-ghost" onclick="closeProfile()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
-<!-- Firebase SDKs (CDN, no npm needed) -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, getDocs, doc, getDoc, query, orderBy, updateDoc, increment, serverTimestamp }
+  import { getFirestore, collection, addDoc, getDocs, getDoc, doc, query, orderBy, where,
+           updateDoc, setDoc, deleteDoc, increment, serverTimestamp, limit }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -511,8 +329,18 @@
   const provider = new GoogleAuthProvider();
 
   let currentUser = null;
+  let userProfile = null;
   let currentSongId = null;
   let allSongs = [];
+
+  // ── ESCAPE (XSS fix: includes apostrophe) ──
+  const esc = (s) => String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+  window.esc = esc;
 
   // ── AUTH ──
   window.handleAuth = async () => {
@@ -520,22 +348,36 @@
       await signOut(auth);
     } else {
       try { await signInWithPopup(auth, provider); }
-      catch(e) { showToast("Sign-in failed: " + e.message); }
+      catch(e) { showToast('Sign-in failed: ' + e.message); }
     }
   };
 
-  onAuthStateChanged(auth, user => {
+  onAuthStateChanged(auth, async user => {
     currentUser = user;
     const label = document.getElementById('auth-label');
     const avatar = document.getElementById('user-avatar');
     if (user) {
-      label.textContent = user.displayName?.split(' ')[0] || 'Account';
+      // Load profile
+      try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        userProfile = snap.exists() ? snap.data() : null;
+      } catch(e) { userProfile = null; }
+
+      const displayName = userProfile?.displayName || user.displayName?.split(' ')[0] || 'Account';
+      label.textContent = displayName;
       if (user.photoURL) { avatar.src = user.photoURL; avatar.style.display = 'block'; }
+
       document.getElementById('tip-login-note').style.display = 'none';
       document.getElementById('tip-form').style.display = 'flex';
       document.getElementById('add-song-login-note').style.display = 'none';
       document.getElementById('song-form').style.display = 'grid';
+
+      // Prompt profile setup if missing voice type
+      if (!userProfile?.voiceType) {
+        setTimeout(() => openProfile(), 600);
+      }
     } else {
+      userProfile = null;
       label.textContent = 'Sign in with Google';
       avatar.style.display = 'none';
       document.getElementById('tip-login-note').style.display = 'block';
@@ -545,25 +387,56 @@
     }
   });
 
+  // ── PROFILE ──
+  window.openProfile = () => {
+    if (userProfile) {
+      document.getElementById('profile-voice').value = userProfile.voiceType || '';
+      document.getElementById('profile-name').value = userProfile.displayName || '';
+    }
+    document.getElementById('profile-modal').classList.add('open');
+  };
+  window.closeProfile = () => document.getElementById('profile-modal').classList.remove('open');
+  window.saveProfile = async () => {
+    if (!currentUser) return;
+    const voiceType = document.getElementById('profile-voice').value;
+    const displayName = document.getElementById('profile-name').value.trim() ||
+      currentUser.displayName?.split(' ')[0] || 'Anonymous';
+    try {
+      await setDoc(doc(db, 'users', currentUser.uid), { voiceType, displayName, updatedAt: serverTimestamp() }, { merge: true });
+      userProfile = { voiceType, displayName };
+      document.getElementById('auth-label').textContent = displayName;
+      closeProfile();
+      showToast('Profile saved!');
+    } catch(e) { showToast('Error saving profile: ' + e.message); }
+  };
+  // Click outside modal to close
+  document.getElementById('profile-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('profile-modal')) closeProfile();
+  });
+
   // ── LOAD SONGS ──
   const loadSongs = async () => {
-    const snap = await getDocs(query(collection(db, 'songs'), orderBy('createdAt', 'desc')));
-    allSongs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderSongsGrid(allSongs);
+    try {
+      const snap = await getDocs(query(collection(db, 'songs'), orderBy('createdAt', 'desc')));
+      allSongs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderSongsGrid(allSongs);
+    } catch(e) {
+      document.getElementById('songs-grid').innerHTML = '<div class="error-msg">Unable to load songs. Check your connection and try refreshing.</div>';
+    }
   };
 
   const renderSongsGrid = (songs) => {
     const grid = document.getElementById('songs-grid');
     if (!songs.length) {
-      grid.innerHTML = '<div class="loading-dots">No songs yet , add the first one below!</div>';
+      grid.innerHTML = '<div class="loading-dots">No songs yet — add the first one below!</div>';
       return;
     }
     grid.innerHTML = songs.map(s => `
-      <div class="song-card" onclick="openSong('${s.id}')">
+      <div class="song-card" onclick="openSong('${esc(s.id)}')">
         <div class="song-card-art">${s.emoji || '🎤'}</div>
         <div class="song-card-title">${esc(s.title)}</div>
         <div class="song-card-artist">${esc(s.artist)}</div>
-        <div class="song-card-meta">${s.range || ''} ${s.difficulty ? '· ' + s.difficulty : ''}</div>
+        <div class="song-card-meta">${s.range ? esc(s.range) : ''}${s.difficulty ? ' · ' + esc(s.difficulty) : ''}</div>
       </div>
     `).join('');
   };
@@ -571,11 +444,10 @@
   window.filterSongs = (q) => {
     document.getElementById('browse-label').textContent = q ? `Results for "${q}"` : 'All songs';
     if (!q) { renderSongsGrid(allSongs); return; }
-    const filtered = allSongs.filter(s =>
-      s.title?.toLowerCase().includes(q.toLowerCase()) ||
-      s.artist?.toLowerCase().includes(q.toLowerCase())
-    );
-    renderSongsGrid(filtered);
+    const lq = q.toLowerCase();
+    renderSongsGrid(allSongs.filter(s =>
+      s.title?.toLowerCase().includes(lq) || s.artist?.toLowerCase().includes(lq)
+    ));
     scrollToSongs();
   };
 
@@ -586,95 +458,121 @@
   // ── OPEN SONG ──
   window.openSong = async (id) => {
     currentSongId = id;
-    const songDoc = await getDoc(doc(db, 'songs', id));
-    if (!songDoc.exists()) return;
-    const song = { id, ...songDoc.data() };
-
+    document.getElementById('lyrics-area').innerHTML = '<div class="loading-dots">Loading…</div>';
     document.getElementById('home-view').style.display = 'none';
     document.getElementById('song-view').style.display = 'block';
     document.getElementById('back-btn').style.display = 'flex';
     document.getElementById('hero').style.display = 'none';
     window.scrollTo(0, 0);
 
-    document.getElementById('song-art').textContent = song.emoji || '🎤';
-    document.getElementById('song-title').textContent = song.title;
-    document.getElementById('song-artist').textContent = song.artist;
+    try {
+      const songDoc = await getDoc(doc(db, 'songs', id));
+      if (!songDoc.exists()) { showToast('Song not found'); showHome(); return; }
+      const song = { id, ...songDoc.data() };
 
-    const tags = document.getElementById('song-tags');
-    tags.innerHTML = '';
-    if (song.key) tags.innerHTML += `<span class="tag tag-key">Key: ${esc(song.key)}</span>`;
-    if (song.range) tags.innerHTML += `<span class="tag tag-range">${esc(song.range)}</span>`;
-    if (song.difficulty) {
-      const cls = song.difficulty === 'Advanced' ? 'tag-diff-adv' : song.difficulty === 'Intermediate' ? 'tag-diff-int' : 'tag-diff-beg';
-      tags.innerHTML += `<span class="tag ${cls}">${esc(song.difficulty)}</span>`;
-    }
+      document.getElementById('song-art').textContent = song.emoji || '🎤';
+      document.getElementById('song-title').textContent = song.title;
+      document.getElementById('song-artist').textContent = song.artist;
 
-    // Load tips
-    const tipsSnap = await getDocs(query(collection(db, 'songs', id, 'tips'), orderBy('upvotes', 'desc')));
-    const tips = tipsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      // Reference links
+      const linksEl = document.getElementById('song-links');
+      linksEl.innerHTML = '';
+      if (song.youtubeUrl) linksEl.innerHTML += `<a class="song-link" href="${esc(song.youtubeUrl)}" target="_blank">▶ YouTube</a>`;
+      if (song.spotifyUrl) linksEl.innerHTML += `<a class="song-link" href="${esc(song.spotifyUrl)}" target="_blank">♪ Spotify</a>`;
 
-    // Render lyrics with inline tips
-    const lyricsArea = document.getElementById('lyrics-area');
-    lyricsArea.innerHTML = '';
-    if (song.lyrics) {
-      const lines = song.lyrics.split('\n');
-      let currentSection = '';
-      lines.forEach(line => {
-        const trimmed = line.trim();
-        if (!trimmed) return;
-        if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
-          currentSection = trimmed.slice(1,-1);
-          const label = document.createElement('div');
-          label.className = 'section-label';
-          label.textContent = currentSection;
-          lyricsArea.appendChild(label);
-          return;
-        }
-        const lineTips = tips.filter(t => t.line?.toLowerCase() === trimmed.toLowerCase());
-        const hasBreath = lineTips.some(t => t.type === 'breath');
-        const hasWarning = lineTips.some(t => t.type === 'warning');
-        const lineDiv = document.createElement('div');
-        lineDiv.className = 'lyric-line' + (lineTips.length ? ' has-tip' : '');
+      const tags = document.getElementById('song-tags');
+      tags.innerHTML = '';
+      if (song.key) tags.innerHTML += `<span class="tag tag-key">Key: ${esc(song.key)}</span>`;
+      if (song.range) tags.innerHTML += `<span class="tag tag-range">${esc(song.range)}</span>`;
+      if (song.difficulty) {
+        const cls = song.difficulty === 'Advanced' ? 'tag-diff-adv' : song.difficulty === 'Intermediate' ? 'tag-diff-int' : 'tag-diff-beg';
+        tags.innerHTML += `<span class="tag ${cls}">${esc(song.difficulty)}</span>`;
+      }
 
-        let lineHtml = esc(trimmed);
-        if (hasBreath) lineHtml += '<span class="inline-mark mark-breath">↓ breathe</span>';
-        if (hasWarning) lineHtml += '<span class="inline-mark mark-warn">⚠ tricky</span>';
+      // Load tips
+      const tipsSnap = await getDocs(query(collection(db, 'songs', id, 'tips'), orderBy('upvotes', 'desc')));
+      const tips = tipsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-        lineDiv.innerHTML = `<div class="lyric-text">${lineHtml}</div>
-          <button class="add-line-btn" onclick="prefillLine('${esc(trimmed).replace(/'/g,"\\'")}')">+ tip</button>`;
-        lyricsArea.appendChild(lineDiv);
-
-        lineTips.forEach(tip => {
-          const tipEl = document.createElement('div');
-          tipEl.className = 'tip-card';
-          tipEl.innerHTML = `
-            <div style="display:flex;gap:6px;margin-bottom:5px;">
-              <span class="tip-type-badge badge-${tip.type}">${tip.type}</span>
-            </div>
-            ${esc(tip.text)}
-            <div class="tip-meta">
-              <span>${esc(tip.authorName || 'Anonymous')}</span>
-              <button class="upvote-btn" id="upvote-${tip.id}" onclick="upvoteTip('${id}','${tip.id}')">
-                ▲ <span id="upcount-${tip.id}">${tip.upvotes || 0}</span>
-              </button>
-            </div>`;
-          lyricsArea.appendChild(tipEl);
-        });
+      // FIX: build tipMap for O(n) lookup instead of O(n²)
+      const tipMap = new Map();
+      tips.forEach(t => {
+        const key = (t.line || '').toLowerCase();
+        if (!tipMap.has(key)) tipMap.set(key, []);
+        tipMap.get(key).push(t);
       });
-    }
 
-    // Sidebar stats
-    document.getElementById('vocal-stats-card').innerHTML = `
-      <h3>vocal stats</h3>
-      ${song.range ? `<div class="stat-row"><span class="stat-label">Range</span><span class="stat-val">${esc(song.range)}</span></div>` : ''}
-      ${song.key ? `<div class="stat-row"><span class="stat-label">Key</span><span class="stat-val">${esc(song.key)}</span></div>` : ''}
-      ${song.difficulty ? `<div class="stat-row"><span class="stat-label">Difficulty</span><span class="stat-val">${esc(song.difficulty)}</span></div>` : ''}
-      <div class="stat-row"><span class="stat-label">Tips</span><span class="stat-val">${tips.length}</span></div>
-    `;
-    document.getElementById('community-card').innerHTML = `
-      <h3>contributed by</h3>
-      <div class="stat-row"><span class="stat-label">Added by</span><span class="stat-val">${esc(song.addedByName || 'Anonymous')}</span></div>
-    `;
+      // Load this user's votes for this song
+      let myVotes = new Set();
+      if (currentUser) {
+        try {
+          const votesSnap = await getDocs(collection(db, 'users', currentUser.uid, 'votes'));
+          votesSnap.docs.forEach(d => { if (d.data().songId === id) myVotes.add(d.data().tipId); });
+        } catch(e) {}
+      }
+
+      // Render lyrics
+      const lyricsArea = document.getElementById('lyrics-area');
+      lyricsArea.innerHTML = '';
+      if (song.lyrics) {
+        song.lyrics.split('\n').forEach(line => {
+          const trimmed = line.trim();
+          if (!trimmed) return;
+          if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+            const label = document.createElement('div');
+            label.className = 'section-label';
+            label.textContent = trimmed.slice(1, -1);
+            lyricsArea.appendChild(label);
+            return;
+          }
+          const lineTips = tipMap.get(trimmed.toLowerCase()) || [];
+          const hasBreath = lineTips.some(t => t.type === 'breath');
+          const hasWarning = lineTips.some(t => t.type === 'warning');
+          const lineDiv = document.createElement('div');
+          lineDiv.className = 'lyric-line' + (lineTips.length ? ' has-tip' : '');
+          let lineHtml = esc(trimmed);
+          if (hasBreath) lineHtml += '<span class="inline-mark mark-breath">↓ breathe</span>';
+          if (hasWarning) lineHtml += '<span class="inline-mark mark-warn">⚠ tricky</span>';
+          lineDiv.innerHTML = `<div class="lyric-text">${lineHtml}</div>
+            <button class="add-line-btn" onclick="prefillLine(&#39;${esc(trimmed)}&#39;)">+ tip</button>`;
+          lyricsArea.appendChild(lineDiv);
+
+          lineTips.forEach(tip => {
+            const voted = myVotes.has(tip.id);
+            const tipEl = document.createElement('div');
+            tipEl.className = 'tip-card';
+            tipEl.innerHTML = `
+              <div style="display:flex;gap:6px;margin-bottom:5px;align-items:center;">
+                <span class="tip-type-badge badge-${esc(tip.type)}">${esc(tip.type)}</span>
+                ${tip.authorVoice ? `<span class="voice-badge">${esc(tip.authorVoice)}</span>` : ''}
+              </div>
+              ${esc(tip.text)}
+              <div class="tip-meta">
+                <span>${esc(tip.authorName || 'Anonymous')}</span>
+                <button class="report-btn" onclick="reportTip('${esc(id)}','${esc(tip.id)}')">report</button>
+                <button class="upvote-btn${voted ? ' voted' : ''}" id="upvote-${esc(tip.id)}"
+                  onclick="upvoteTip('${esc(id)}','${esc(tip.id)}')">
+                  ▲ <span id="upcount-${esc(tip.id)}">${tip.upvotes || 0}</span>
+                </button>
+              </div>`;
+            lyricsArea.appendChild(tipEl);
+          });
+        });
+      }
+
+      // Sidebar
+      document.getElementById('vocal-stats-card').innerHTML = `
+        <h3>vocal stats</h3>
+        ${song.range ? `<div class="stat-row"><span class="stat-label">Range</span><span class="stat-val">${esc(song.range)}</span></div>` : ''}
+        ${song.key ? `<div class="stat-row"><span class="stat-label">Key</span><span class="stat-val">${esc(song.key)}</span></div>` : ''}
+        ${song.difficulty ? `<div class="stat-row"><span class="stat-label">Difficulty</span><span class="stat-val">${esc(song.difficulty)}</span></div>` : ''}
+        <div class="stat-row"><span class="stat-label">Tips</span><span class="stat-val">${tips.length}</span></div>`;
+      document.getElementById('community-card').innerHTML = `
+        <h3>contributed by</h3>
+        <div class="stat-row"><span class="stat-label">Added by</span><span class="stat-val">${esc(song.addedByName || 'Anonymous')}</span></div>
+        ${song.addedByVoice ? `<div class="stat-row"><span class="stat-label">Voice type</span><span class="stat-val">${esc(song.addedByVoice)}</span></div>` : ''}`;
+    } catch(e) {
+      document.getElementById('lyrics-area').innerHTML = '<div class="error-msg">Failed to load song. Please try again.</div>';
+    }
   };
 
   window.showHome = () => {
@@ -683,6 +581,7 @@
     document.getElementById('back-btn').style.display = 'none';
     document.getElementById('hero').style.display = 'block';
     currentSongId = null;
+    window.scrollTo(0, 0);
   };
 
   // ── SUBMIT TIP ──
@@ -693,36 +592,53 @@
     const type = document.getElementById('tip-type').value;
     const text = document.getElementById('tip-text').value.trim();
     if (!line || !text) { showToast('Fill in the lyric line and your tip'); return; }
+    if (text.length > 1000) { showToast('Tip is too long (max 1000 chars)'); return; }
     const btn = document.getElementById('submit-tip-btn');
-    btn.disabled = true;
+    btn.disabled = true; btn.textContent = 'Posting…';
     try {
       await addDoc(collection(db, 'songs', currentSongId, 'tips'), {
         line, type, text,
-        authorName: currentUser.displayName || 'Anonymous',
+        authorName: userProfile?.displayName || currentUser.displayName || 'Anonymous',
+        authorVoice: userProfile?.voiceType || '',
         authorId: currentUser.uid,
         upvotes: 0,
+        reported: false,
         createdAt: serverTimestamp()
       });
-      showToast('Tip added! Refreshing…');
+      showToast('Tip added!');
       document.getElementById('tip-line').value = '';
       document.getElementById('tip-text').value = '';
-      setTimeout(() => openSong(currentSongId), 800);
+      setTimeout(() => openSong(currentSongId), 600);
     } catch(e) { showToast('Error: ' + e.message); }
-    btn.disabled = false;
+    btn.disabled = false; btn.textContent = 'Post tip';
   };
 
-  // ── UPVOTE ──
+  // ── UPVOTE (one per user per tip, stored in users/{uid}/votes) ──
   window.upvoteTip = async (songId, tipId) => {
     if (!currentUser) { showToast('Sign in to upvote'); return; }
     const btn = document.getElementById('upvote-' + tipId);
-    if (btn.classList.contains('voted')) return;
-    await updateDoc(doc(db, 'songs', songId, 'tips', tipId), { upvotes: increment(1) });
-    btn.classList.add('voted');
-    const span = document.getElementById('upcount-' + tipId);
-    span.textContent = parseInt(span.textContent) + 1;
+    if (!btn || btn.classList.contains('voted')) return;
+    const voteRef = doc(db, 'users', currentUser.uid, 'votes', songId + '_' + tipId);
+    try {
+      await setDoc(voteRef, { songId, tipId, createdAt: serverTimestamp() });
+      await updateDoc(doc(db, 'songs', songId, 'tips', tipId), { upvotes: increment(1) });
+      btn.classList.add('voted');
+      const span = document.getElementById('upcount-' + tipId);
+      if (span) span.textContent = parseInt(span.textContent) + 1;
+    } catch(e) { showToast('Could not save vote'); }
   };
 
-  // ── ADD SONG ──
+  // ── REPORT TIP ──
+  window.reportTip = async (songId, tipId) => {
+    if (!currentUser) { showToast('Sign in to report'); return; }
+    if (!confirm('Report this tip as inappropriate?')) return;
+    try {
+      await updateDoc(doc(db, 'songs', songId, 'tips', tipId), { reported: true });
+      showToast('Reported — thank you');
+    } catch(e) { showToast('Could not send report'); }
+  };
+
+  // ── ADD SONG (duplicate check) ──
   window.submitSong = async () => {
     if (!currentUser) { showToast('Sign in to add songs'); return; }
     const title = document.getElementById('new-song-title').value.trim();
@@ -730,20 +646,33 @@
     const lyrics = document.getElementById('new-song-lyrics').value.trim();
     if (!title || !artist || !lyrics) { showToast('Title, artist and lyrics are required'); return; }
     const btn = document.getElementById('submit-song-btn');
-    btn.disabled = true; btn.textContent = 'Adding…';
+    btn.disabled = true; btn.textContent = 'Checking…';
     try {
+      // Duplicate check
+      const dupSnap = await getDocs(query(collection(db, 'songs'),
+        where('title', '==', title), where('artist', '==', artist), limit(1)));
+      if (!dupSnap.empty) {
+        showToast('This song is already in the library!');
+        btn.disabled = false; btn.textContent = 'Add song';
+        return;
+      }
+      btn.textContent = 'Adding…';
       const ref = await addDoc(collection(db, 'songs'), {
         title, artist, lyrics,
         key: document.getElementById('new-song-key').value.trim(),
         range: document.getElementById('new-song-range').value.trim(),
         difficulty: document.getElementById('new-song-diff').value,
         emoji: document.getElementById('new-song-emoji').value.trim() || '🎤',
-        addedByName: currentUser.displayName || 'Anonymous',
+        youtubeUrl: document.getElementById('new-song-youtube').value.trim(),
+        spotifyUrl: document.getElementById('new-song-spotify').value.trim(),
+        addedByName: userProfile?.displayName || currentUser.displayName || 'Anonymous',
+        addedByVoice: userProfile?.voiceType || '',
         addedById: currentUser.uid,
         createdAt: serverTimestamp()
       });
       showToast('Song added!');
-      ['new-song-title','new-song-artist','new-song-lyrics','new-song-key','new-song-range','new-song-emoji'].forEach(id => {
+      ['new-song-title','new-song-artist','new-song-lyrics','new-song-key',
+       'new-song-range','new-song-emoji','new-song-youtube','new-song-spotify'].forEach(id => {
         document.getElementById(id).value = '';
       });
       document.getElementById('new-song-diff').value = '';
@@ -759,16 +688,11 @@
     document.getElementById('add-tip-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  // ── TOAST ──
   window.showToast = (msg) => {
     const t = document.getElementById('toast');
     t.textContent = msg; t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
   };
-
-  // ── UTILS ──
-  const esc = (s) => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  window.esc = esc;
 
   // ── INIT ──
   loadSongs();
