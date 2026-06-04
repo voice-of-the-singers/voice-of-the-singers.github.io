@@ -196,7 +196,7 @@
 
 <div id="hero">
   <h1>The singer's<br/><em>annotation layer</em></h1>
-  <p>Breath marks, technique tips, range warnings — crowdsourced by singers, for singers.</p>
+  <p>breath marks, technique tips, range warnings, crowdsourced by singers, for singers.</p>
   <div id="hero-search">
     <input type="text" placeholder="Search a song or artist…" oninput="filterSongs(this.value)" onfocus="scrollToSongs()" />
     <button onclick="scrollToSongs()">Browse</button>
@@ -225,7 +225,7 @@
         <input id="new-song-title" type="text" placeholder="Song title" />
         <input id="new-song-artist" type="text" placeholder="Artist / Band" />
         <input id="new-song-key" type="text" placeholder="Key (e.g. D minor)" />
-        <input id="new-song-range" type="text" placeholder="Vocal range (e.g. B2–G5)" />
+        <input id="new-song-range" type="text" placeholder="Vocal range (e.g. B2 to G5)" />
         <select id="new-song-diff">
           <option value="">Difficulty…</option>
           <option value="Beginner">Beginner</option>
@@ -235,7 +235,7 @@
         <input id="new-song-emoji" type="text" placeholder="Emoji for art (e.g. 🎸)" maxlength="4" />
         <input id="new-song-youtube" type="text" placeholder="YouTube URL (optional)" class="full-width" />
         <input id="new-song-spotify" type="text" placeholder="Spotify URL (optional)" class="full-width" />
-        <textarea id="new-song-lyrics" class="full-width" placeholder="Paste lyrics here — one line per line. Mark sections like [Verse 1], [Chorus] etc."></textarea>
+        <textarea id="new-song-lyrics" class="full-width" placeholder="Paste lyrics here, one line per line. Mark sections like [Verse 1], [Chorus] etc."></textarea>
         <button id="submit-song-btn" onclick="submitSong()">Add song</button>
       </div>
     </div>
@@ -263,10 +263,10 @@
           <div class="tip-form" id="tip-form" style="display:none;">
             <input id="tip-line" type="text" placeholder="Lyric line this tip is for (or click + tip on a line above)" />
             <select id="tip-type">
-              <option value="breath">Breath — where to breathe</option>
-              <option value="technique">Technique — how to sing it</option>
-              <option value="warning">Warning — tricky passage</option>
-              <option value="dynamics">Dynamics — volume / emotion</option>
+              <option value="breath">Breath: where to breathe</option>
+              <option value="technique">Technique: how to sing it</option>
+              <option value="warning">Warning: tricky passage</option>
+              <option value="dynamics">Dynamics: volume and emotion</option>
             </select>
             <textarea id="tip-text" placeholder="Your tip…"></textarea>
             <button id="submit-tip-btn" onclick="submitTip()">Post tip</button>
@@ -428,7 +428,7 @@
   const renderSongsGrid = (songs) => {
     const grid = document.getElementById('songs-grid');
     if (!songs.length) {
-      grid.innerHTML = '<div class="loading-dots">No songs yet — add the first one below!</div>';
+      grid.innerHTML = '<div class="loading-dots">No songs yet, add the first one below!</div>';
       return;
     }
     grid.innerHTML = songs.map(s => `
@@ -634,7 +634,7 @@
     if (!confirm('Report this tip as inappropriate?')) return;
     try {
       await updateDoc(doc(db, 'songs', songId, 'tips', tipId), { reported: true });
-      showToast('Reported — thank you');
+      showToast('Reported, thank you');
     } catch(e) { showToast('Could not send report'); }
   };
 
